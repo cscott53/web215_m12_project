@@ -1,16 +1,16 @@
+import { useEffect,useRef,useState } from 'react'
 import EntryPreview from './EntryPreview'
-export default function EntryList() {
-  const [entries,setEntries] = useState([]),
-        [addEntry,showForm] = useState(false),
+export default function EntryList({setPage,entries,setEntries}) {
+  const [addEntry,showForm] = useState(false),
         entryTitle = useRef({}),
         entryDesc = useRef({}),
-        entryContent = useRef({}),
-        [page,setPage] = useState()
+        entryContent = useRef({})
   return (
     <>
-      {entries.map(entry=>{
-        let {title,desc} = entry
-        return <EntryPreview title={title} desc={desc}/>
+      {entries.map((entry,index)=>{
+        return <EntryPreview onClick={()=>{
+          setPage('entry-'+index)
+        }} {...{index,...entry}}/>
       })}
       {addEntry ? (
         <form>
@@ -26,6 +26,7 @@ export default function EntryList() {
             setEntries(updatedEntries)
             showForm(false)
           }}>Add</button>
+          <button onClick={()=>showForm(false)}>Cancel</button>
         </form>
       ) : (
         <a href='/' onClick={e=>{

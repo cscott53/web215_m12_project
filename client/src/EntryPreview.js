@@ -1,7 +1,7 @@
-export default function EntryPreview({title,desc}) {
+export default function EntryPreview({title,desc,content,index,onClick}) {
     return (
-        <div className='entryPreview'>
-            {title}
+        <div className='entryPreview' onClick={onClick}>
+            <strong>{title}</strong>
             <hr/>
             {desc}
         </div>

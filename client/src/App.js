@@ -5,6 +5,8 @@ import { useEffect,useRef,useState } from 'react'
 import Entry from './Entry'
 import EntryList from './EntryList'
 function App() {
+  const [currentPage,setPage] = useState('list'),
+        [entries,setEntries] = useState([])
   useEffect(() => {
     let headerLinks = document.querySelectorAll('header .links')
     let footerLinks = document.querySelectorAll('footer .links')
@@ -17,7 +19,20 @@ function App() {
   return (
     <div className="App">
       <Header/>
-      <EntryList/>
+      {currentPage == 'list' ? (
+        <EntryList {...{setPage,entries,setEntries}}/>
+      ) : (()=>{
+        let entry = entries[parseInt(currentPage.split('-')[1])]
+        return (
+          <>
+            <Entry {...entry}/>
+            <a href='/' onClick={e=>{
+              e.preventDefault()
+              setPage('list')
+            }}>Back to entries list</a>
+          </>
+        )
+      })()}
       <Footer/>
     </div>
   )
