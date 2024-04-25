@@ -7,6 +7,7 @@ body {
   font-family: Helvetica, sans-serif;
   color: tan;
 }
+header {margin-bottom: 1em;}
 a,a:visited {
   color: #0aa;
 }
@@ -33,7 +34,7 @@ footer .links {
   width: 100px;
   background-color: #876;
 }
-.submit {
+button {
   border: none;
   height: 22px;
   background: black;
@@ -44,4 +45,6 @@ footer .links {
 button,input,textarea {
   width: 140px;
   margin: 4px auto;
+  display: block;
 }
+input::placeholder{color: grey;}
