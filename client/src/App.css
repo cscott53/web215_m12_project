@@ -42,9 +42,27 @@ button {
   font-size: 14px;
   border-radius: 6px;
 }
+.entryPreview {
+  text-align: left;
+  width: 25em;
+  border: 1px solid grey;
+  background-color: #765;
+  border-radius: 10px;
+  padding: 5px 8px;
+  margin: 10px auto;
+  cursor: pointer;
+}
+hr {
+  border: none;
+  width: calc(100% + 16px);
+  height: 1px;
+  margin: 5px 0;
+  background-color: grey;
+  transform: translateX(-8px);
+}
 button,input,textarea {
   width: 140px;
   margin: 4px auto;
   display: block;
 }
-input::placeholder{color: grey;}
+input::placeholder,textarea::placeholder{color: grey;}
