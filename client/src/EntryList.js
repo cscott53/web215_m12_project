@@ -17,6 +17,7 @@ export default function EntryList({setPage,entries,setEntries}) {
           <input type='text' ref={entryTitle} placeholder='Entry title:'/>
           <input type='text' ref={entryDesc} placeholder='Enter a brief description:'/>
           <textarea placeholder='Entry content:' ref={entryContent}></textarea>
+          <button className='icons'><img src='/uploadImage.png' className='imageIcons'/></button>
           <button onClick={()=>{
             let title = entryTitle.current.value,
                 desc = entryDesc.current.value,

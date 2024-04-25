@@ -34,7 +34,7 @@ footer .links {
   width: 100px;
   background-color: #876;
 }
-button {
+button:not(.icons) {
   border: none;
   height: 22px;
   background: black;
@@ -60,9 +60,23 @@ hr {
   background-color: grey;
   transform: translateX(-8px);
 }
-button,input,textarea {
+button:not(.icons),input,textarea {
   width: 140px;
   margin: 4px auto;
   display: block;
 }
 input::placeholder,textarea::placeholder{color: grey;}
+.icons {
+  all: unset;
+  background-color: white;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.imageIcons {
+  width: 1em;
+  height: auto;
+}
