@@ -12,7 +12,7 @@ export default function EntryList({setPage,entries,setEntries}) {
       {entries.map((entry,index)=>{
         return <EntryPreview onClick={()=>{
           setPage('entry-'+index)
-        }} {...{index,...entry}}/>
+        }} {...entry}/>
       })}
       {addEntry ? (()=>{
         return (
@@ -25,12 +25,12 @@ export default function EntryList({setPage,entries,setEntries}) {
               photoUpload.current.click()
             }}>Add up to 4 photos</button>}
             <input type='file' style={{display:'none'}} ref={photoUpload} onChange={({target:{files}})=>{
-              Array.from(files).forEach(file=>{
+              Array.from(files).slice(0,4).forEach(file=>{
                 let reader = new FileReader
                 reader.onload = ({target:{result}})=>setPhotos([...photos,result])
                 reader.readAsDataURL(file)
               })
-            }}/>
+            }} multiple/>
             <button onClick={()=>{
               let title = entryTitle.current.value,
                   desc = entryDesc.current.value,
@@ -43,7 +43,10 @@ export default function EntryList({setPage,entries,setEntries}) {
               setEntries(updatedEntries)
               showForm(false)
             }}>Save</button>
-            <button onClick={()=>showForm(false)}>Cancel</button>
+            <button onClick={()=>{
+              showForm(false)
+              setPhotos([])
+            }}>Cancel</button>
             {photos.length > 0 ? (
               <>
                 Preview photos:
