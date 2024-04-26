@@ -3,7 +3,7 @@ export default function Entry({title,content,desc}) {
     <div className='entry'>
       <strong>{title}: {desc}</strong>
       <hr/>
-      {content}
+      <p>{content.text}</p>
     </div>
   )
 }

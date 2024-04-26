@@ -1,7 +1,7 @@
 import './App.css'
 import Header from './Header'
 import Footer from './Footer'
-import { useEffect,useRef,useState } from 'react'
+import { useEffect,useState } from 'react'
 import Entry from './Entry'
 import EntryList from './EntryList'
 function App() {
