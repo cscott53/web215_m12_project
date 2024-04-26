@@ -34,14 +34,6 @@ footer .links {
   width: 100px;
   background-color: #876;
 }
-button:not(.icons) {
-  border: none;
-  height: 22px;
-  background: black;
-  color: white;
-  font-size: 14px;
-  border-radius: 6px;
-}
 .entryPreview {
   text-align: left;
   width: 25em;
@@ -60,23 +52,20 @@ hr {
   background-color: grey;
   transform: translateX(-8px);
 }
-button:not(.icons),input,textarea {
+button,input,textarea {
   width: 140px;
   margin: 4px auto;
   display: block;
 }
+button {
+  border: none;
+  height: 22px;
+  background: black;
+  color: white;
+  font-size: 14px;
+  border-radius: 6px;
+}
+button:first-of-type {
+  margin-top: 10px;
+}
 input::placeholder,textarea::placeholder{color: grey;}
-.icons {
-  all: unset;
-  background-color: white;
-  border-radius: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.imageIcons {
-  width: 1em;
-  height: auto;
-}
