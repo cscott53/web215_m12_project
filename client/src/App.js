@@ -22,10 +22,15 @@ function App() {
       {currentPage == 'list' ? (
         <EntryList {...{setPage,entries,setEntries}}/>
       ) : (()=>{
-        let entry = entries[parseInt(currentPage.split('-')[1])]
+        let index = parseInt(currentPage.split('-')[1]),
+            entry = entries[index]
         return (
           <>
-            <Entry {...entry}/>
+            <Entry {...entry} onEdit={(title,desc,content,photos)=>{
+              let updatedEntries = structuredClone(entries)
+              updatedEntries[index] = {title,desc,content:{text:content,photos}}
+              setEntries(updatedEntries)
+            }}/>
             <a href='/' onClick={e=>{
               e.preventDefault()
               setPage('list')

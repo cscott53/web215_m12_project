@@ -9,11 +9,12 @@ export default function EntryList({setPage,entries,setEntries}) {
         [photos,setPhotos] = useState([])
   return (
     <>
-      {entries.map((entry,index)=>{
-        return <EntryPreview onClick={()=>{
-          setPage('entry-'+index)
-        }} {...entry}/>
-      })}
+      {entries.map(({title,desc},index)=>(
+        <EntryPreview key={index}
+          onClick={()=>setPage('entry-'+index)}
+          {...{title,desc}}
+        />
+      ))}
       {addEntry ? (()=>{
         return (
           <form>
@@ -27,7 +28,7 @@ export default function EntryList({setPage,entries,setEntries}) {
             <input type='file' style={{display:'none'}} ref={photoUpload} onChange={({target:{files}})=>{
               Array.from(files).slice(0,4).forEach(file=>{
                 let reader = new FileReader
-                reader.onload = ({target:{result}})=>setPhotos([...photos,result])
+                reader.onload = ({target:{result}})=>setPhotos(prev=>[...prev,result])
                 reader.readAsDataURL(file)
               })
             }} multiple/>
@@ -39,7 +40,7 @@ export default function EntryList({setPage,entries,setEntries}) {
                     photos
                   },
                   updatedEntries = structuredClone(entries)
-              updatedEntries.push({title,desc,content,photos:[...photos]})
+              updatedEntries.push({title,desc,content})
               setEntries(updatedEntries)
               showForm(false)
             }}>Save</button>
@@ -47,18 +48,24 @@ export default function EntryList({setPage,entries,setEntries}) {
               showForm(false)
               setPhotos([])
             }}>Cancel</button>
-            {photos.length > 0 ? (
+            {photos.length > 0 && (
               <>
                 Preview photos:
                 <div id='photos'>
-                  {photos.map(photo=>(
-                    <div className='image'>
+                  {photos.map((photo,index)=>(
+                    <div className='image' key={index}>
                       <img src={photo}/>
+                      <button onClick={e=>{
+                        e.preventDefault()
+                        let updatedPhotos = [...photos]
+                        updatedPhotos.splice(index,1)
+                        setPhotos(updatedPhotos)
+                      }} className='x'><img src='/x.png'/></button>
                     </div>
                   ))}
                 </div>
               </>
-            ) : ''}
+            )}
           </form>
         )
       })() : (
