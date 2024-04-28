@@ -30,6 +30,11 @@ function App() {
               let updatedEntries = structuredClone(entries)
               updatedEntries[index] = {title,desc,content:{text:content,photos}}
               setEntries(updatedEntries)
+            }} onDelete={()=>{
+              let updatedEntries = structuredClone(entries)
+              updatedEntries.splice(index,1)
+              setEntries(updatedEntries)
+              setPage('list')
             }}/>
             <a href='/' onClick={e=>{
               e.preventDefault()

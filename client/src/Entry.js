@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-export default function Entry({title,content,desc,onEdit}) {
+export default function Entry({title,content,desc,onEdit,onDelete}) {
   const [mode,setMode] = useState('view'),
         titleRef = useRef({}),
         descRef = useRef({}),
@@ -64,6 +64,9 @@ export default function Entry({title,content,desc,onEdit}) {
           ))}
         </div>
       </div>
+      <button onClick={()=>{
+        if(window.confirm('Are you sure?'))onDelete()
+      }}>Delete</button>
       <button id='edit' onClick={()=>setMode('edit')}>Edit</button>
     </>
   )
