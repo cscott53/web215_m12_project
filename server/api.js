@@ -16,5 +16,16 @@ below was trying to call what was returned on the
 line above as if it were a function and throw an error
 */
 (async()=>await client.connect())()
-
+router.get('/entries',async(req,res)=>{
+    
+})
+router.post('/entries',async(req,res)=>{
+    
+})
+router.put('/entries',async(req,res)=>{
+    
+})
+router.delete('/entries',async(req,res)=>{
+    
+})
 module.exports = router
