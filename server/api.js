@@ -16,3 +16,4 @@ below was trying to call what was returned on the
 line above as if it were a function and throw an error
 */
 (async()=>await client.connect())()
+module.exports = router
