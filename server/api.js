@@ -8,24 +8,78 @@ const express = require('express'),
               strict: true,
               deprecationErrors: true,
           }
-      });
-/*
-I usually don't use semicolons but had to put one on
-the line above since JS thought the () on the line
-below was trying to call what was returned on the
-line above as if it were a function and throw an error
-*/
-(async()=>await client.connect())()
-router.get('/entries',async(req,res)=>{
-    
+      })
+let db,entries,users
+(async()=>{
+    await client.connect()
+    db = client.db('test')
+    entries = db.collection('entries')
+    users = db.collection('users')
+})().catch(console.dir)
+router.get('/entries',async({body},res)=>{
+    try {
+        let {username} = body,
+            user = await users.findOne({username})
+        if (!user) res.status(404).send('User not found')
+        else {
+            let entryUser = await entries.findOne({username})
+            if (!entryUser) await entries.insertOne({username, entries:[]})
+            let data = await entries.findOne({username}).entries
+            res.json({data})
+        }
+    } catch (error) {
+        console.dir(error)
+    }
 })
-router.post('/entries',async(req,res)=>{
-    
+router.post('/entries',async({body},res)=>{
+    try {
+        let {username,newEntry} = body,
+            user = await users.findOne({username})
+        if (!user) res.status(404).send('User not found')
+        else {
+            let data = (await entries.findOne({username}).entries).slice() //to copy array
+            data.push(newEntry)
+            await entries.findOneAndUpdate({username},{
+                $set: {entries: data}
+            })
+            res.json({data})
+        }
+    } catch (error) {
+        console.dir(error)
+    }
 })
-router.put('/entries',async(req,res)=>{
-    
+router.put('/entries',async({body},res)=>{
+    try {
+        let {username,index,updatedEntry} = body,
+            user = await users.findOne({username})
+        if (!user) res.status(404).send('User not found')
+        else {
+            let data = (await entries.findOne({username}).entries).slice()
+            data[index] = updatedEntry
+            await entries.findOneAndUpdate({username},{
+                $set: {entries: data}
+            })
+            res.json({data})
+        }
+    } catch (error) {
+        console.dir(error)
+    }
 })
-router.delete('/entries',async(req,res)=>{
-    
+router.delete('/entries',async({body},res)=>{
+    try {
+        let {username,index} = body,
+            user = await users.findOne({username})
+        if (!user) res.status(404).send('User not found')
+        else {
+            let data = (await entries.findOne({username}).entries).slice()
+            data.splice(index,1)
+            await entries.findOneAndUpdate({username},{
+                $set: {entries: data}
+            })
+            res.json({data})
+        }
+    } catch (error) {
+        console.dir(error)
+    }
 })
 module.exports = router
