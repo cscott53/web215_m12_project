@@ -16,15 +16,15 @@ let db,entries,users
     entries = db.collection('entries')
     users = db.collection('users')
 })().catch(console.dir)
-router.get('/entries',async({body},res)=>{
+router.get('/entries',async({query},res)=>{
     try {
-        let {username} = body,
+        let {username} = query,
             user = await users.findOne({username})
         if (!user) res.status(404).send('User not found')
         else {
             let entryUser = await entries.findOne({username})
             if (!entryUser) await entries.insertOne({username, entries:[]})
-            let data = await entries.findOne({username}).entries
+            let data = (await entries.findOne({username})).entries
             res.json({data})
         }
     } catch (error) {
@@ -33,12 +33,12 @@ router.get('/entries',async({body},res)=>{
 })
 router.post('/entries',async({body},res)=>{
     try {
-        let {username,newEntry} = body,
+        let {username,entry} = body,
             user = await users.findOne({username})
         if (!user) res.status(404).send('User not found')
         else {
             let data = (await entries.findOne({username}).entries).slice() //to copy array
-            data.push(newEntry)
+            data.push(entry)
             await entries.findOneAndUpdate({username},{
                 $set: {entries: data}
             })
