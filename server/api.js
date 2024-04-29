@@ -33,6 +33,7 @@ router.get('/entries',async({query},res)=>{
 })
 router.post('/entries',async({body},res)=>{
     try {
+        console.log(body)
         let {username,entry} = body,
             user = await users.findOne({username})
         if (!user) res.status(404).send('User not found')
