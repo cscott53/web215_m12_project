@@ -54,7 +54,7 @@ router.put('/entries',async({body},res)=>{
             user = await users.findOne({username})
         if (!user) res.status(404).send('User not found')
         else {
-            let data = (await entries.findOne({username}).entries).slice()
+            let data = (await entries.findOne({username})).entries.slice()
             data[index] = updatedEntry
             await entries.findOneAndUpdate({username},{
                 $set: {entries: data}
