@@ -33,12 +33,11 @@ router.get('/entries',async({query},res)=>{
 })
 router.post('/entries',async({body},res)=>{
     try {
-        console.log(body)
         let {username,entry} = body,
             user = await users.findOne({username})
         if (!user) res.status(404).send('User not found')
         else {
-            let data = (await entries.findOne({username}).entries).slice() //to copy array
+            let data = (await entries.findOne({username})).entries.slice() //to copy array
             data.push(entry)
             await entries.findOneAndUpdate({username},{
                 $set: {entries: data}

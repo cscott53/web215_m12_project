@@ -1,5 +1,6 @@
-import { useRef,useState } from 'react'
+import { useEffect, useRef,useState } from 'react'
 import EntryPreview from './EntryPreview'
+let username = 'testUser' //this is just for testing purposes
 export default function EntryList({setPage,entries,setEntries}) {
   const [addEntry,showForm] = useState(false),
         entryTitle = useRef({}),
@@ -7,6 +8,22 @@ export default function EntryList({setPage,entries,setEntries}) {
         entryContent = useRef({}),
         photoUpload = useRef({}),
         [photos,setPhotos] = useState([])
+  useEffect(() => {
+    fetch(`/api/entries?username=${username}`,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res=>{
+      if (!res.ok) {
+        res.text().then(message=>{
+          if (message == 'User not found') alert('Not logged in')
+          else console.error(message)
+          return
+        })
+      }
+      return res.json()
+    }).then(({data})=>setEntries(data)).catch(console.error)
+  }, [])
   return (
     <>
       {entries.map(({title,desc},index)=>(
@@ -39,8 +56,25 @@ export default function EntryList({setPage,entries,setEntries}) {
                     text: entryContent.current.value,
                     photos
                   },
-                  updatedEntries = structuredClone(entries)
-              updatedEntries.push({title,desc,content})
+                  updatedEntries = structuredClone(entries),
+                  entry = {title,desc,content}
+              updatedEntries.push(entry)
+              fetch(`/api/entries`,{
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username,entry})
+              }).then(res=>{
+                if (!res.ok) {
+                  res.text().then(message=>{
+                    if (message == 'User not found') alert('Not logged in')
+                    else console.error(message)
+                    return
+                  })
+                }
+                return res.json()
+              }).then(console.log).catch(console.error)
               setEntries(updatedEntries)
               showForm(false)
             }}>Save</button>
