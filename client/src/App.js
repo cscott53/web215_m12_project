@@ -48,6 +48,13 @@ export default function App() {
             }} onDelete={()=>{
               let updatedEntries = structuredClone(entries)
               updatedEntries.splice(index,1)
+              fetch(`/api/entries`,{
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username,index})
+              })
               setEntries(updatedEntries)
               setPage('list')
             }}/>
