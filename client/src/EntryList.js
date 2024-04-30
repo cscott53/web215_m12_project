@@ -1,7 +1,6 @@
 import { useEffect, useRef,useState } from 'react'
 import EntryPreview from './EntryPreview'
-let username = 'testUser' //this is just for testing purposes
-export default function EntryList({setPage,entries,setEntries}) {
+export default function EntryList({setPage,entries,setEntries,username}) {
   const [addEntry,showForm] = useState(false),
         entryTitle = useRef({}),
         entryDesc = useRef({}),
