@@ -4,7 +4,16 @@ import Footer from './Footer'
 import { useEffect,useState } from 'react'
 import Entry from './Entry'
 import EntryList from './EntryList'
-let username = 'testUser' //this is just for testing purposes
+let username
+//eslint-disable-next-line no-restricted-globals
+let {href} = location
+if (href.includes('username=')) username = href.split('username=')[1]
+else {
+  let cookieData = document.cookie.split(';')
+  for (var data of cookieData) {
+    if (data.includes('username=')) username = data.split('=')[1]
+  }
+}
 export default function App() {
   const [currentPage,setPage] = useState('list'),
         [entries,setEntries] = useState([])
@@ -16,6 +25,9 @@ export default function App() {
         if (i < links.length - 1) e.outerHTML += ' '
       })
     }
+    if (href.includes('username=')) document.cookie = `username=${username}; expires=${
+      ((date)=>(date.setDate(date.getDate() + 7)))(new Date) //expires in 7 days
+    }`
   }, [])
   return (
     <div className="App">
