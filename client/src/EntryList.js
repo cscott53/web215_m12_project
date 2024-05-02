@@ -15,7 +15,10 @@ export default function EntryList({setPage,entries,setEntries,username}) {
     }).then(res=>{
       if (!res.ok) {
         res.text().then(message=>{
-          if (message == 'User not found') alert('Not logged in')
+          if (message == 'User not found') {
+            window.confirm('you don\'t seem to be logged in, please login to continue') &&
+            Array.from(document.querySelectorAll('header .links a')).find(a=>a.textContent.includes('Login'))?.click()
+          }
           else console.error(message)
           return
         })
