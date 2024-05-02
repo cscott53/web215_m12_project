@@ -52,7 +52,7 @@ export default function App() {
               }).then(res=>{
                 if (res.ok) return res.json()
                 else res.text().then(text=>{
-                  if (text == 'user not found') alert('not logged in')
+                  if (text == 'user not found') alert('User not logged in')
                   else console.error(text)
                 })
               }).then(console.log).catch(console.error)
